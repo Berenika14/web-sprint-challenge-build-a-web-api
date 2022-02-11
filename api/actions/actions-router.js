@@ -28,11 +28,9 @@ router.get("/:id", (req, res) => {
       }
     })
     .catch(() => {
-      res
-        .status(500)
-        .json({
-          message: "Error retrieving the  action with the specific id ❌",
-        });
+      res.status(500).json({
+        message: "Error retrieving the  action with the specific id ❌",
+      });
     });
 });
 
@@ -55,12 +53,7 @@ router.post("", (req, res) => {
 router.put("/:id", (req, res) => {
   const updates = req.body;
 
-  if (
-    !updates.notes ||
-    !updates.description ||
-    !updates.project_id ||
-    typeof updates.completed !== "boolean"
-  ) {
+  if (!updates.notes || !updates.description || !updates.project_id) {
     res.status(400).json({
       message: "Missing notes ,description,completed  or project_id🧐",
     });
