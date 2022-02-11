@@ -11,7 +11,7 @@ async function validateProjectsId(req, res, next) {
       next();
     }
   } catch (err) {
-    res.status(500).json({ message: " Error finding the user" });
+    res.status(500).json({ message: " Error finding the project" });
   }
 }
 

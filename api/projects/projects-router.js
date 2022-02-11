@@ -17,7 +17,7 @@ router.get("", (req, res) => {
       res.status(500).json({ message: "Error retrieving the projects ❗️" });
     });
 });
-
+///MIDDLEWARE ADDED
 router.get("/:id", validateProjectsId, (req, res) => {
   Projects.get(req.params.id)
     .then((project) => {
@@ -29,6 +29,7 @@ router.get("/:id", validateProjectsId, (req, res) => {
       });
     });
 });
+
 // router.get("/:id", (req, res) => {
 //   const { id } = req.params;
 //   Projects.get(id)
@@ -87,6 +88,9 @@ router.post("", (req, res) => {
 //       });
 //     });
 // });
+
+/// 2 MIDDLEWARE ADDED
+
 router.put("/:id", validateProjectsId, validateProject, (req, res) => {
   Projects.update(req.params.id, {
     name: req.name,
