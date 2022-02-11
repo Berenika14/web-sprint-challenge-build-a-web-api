@@ -3,6 +3,10 @@ const express = require("express");
 const Projects = require("./projects-model");
 
 const router = express.Router();
+const {
+  validateProjectsId,
+  validateProject,
+} = require("./projects-middleware");
 
 router.get("", (req, res) => {
   Projects.get()
@@ -14,26 +18,35 @@ router.get("", (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  Projects.get(id)
+router.get("/:id", validateProjectsId, (req, res) => {
+  Projects.get(req.params.id)
     .then((project) => {
-      if (!id || project === null) {
-        res
-          .status(404)
-          .json({ message: "There is no project with id you are looking ☹️" });
-      } else {
-        res.status(200).json(project);
-      }
+      res.status(200).json(project);
     })
     .catch(() => {
-      res
-        .status(500)
-        .json({
-          message: "Error retrieving the project with the specific id ❗️",
-        });
+      res.status(500).json({
+        message: "Error retrieving the project with the specific id ❗️",
+      });
     });
 });
+// router.get("/:id", (req, res) => {
+//   const { id } = req.params;
+//   Projects.get(id)
+//     .then((project) => {
+//       if (!id || project === null) {
+//         res
+//           .status(404)
+//           .json({ message: "There is no project with id you are looking ☹️" });
+//       } else {
+//         res.status(200).json(project);
+//       }
+//     })
+//     .catch(() => {
+//       res.status(500).json({
+//         message: "Error retrieving the project with the specific id ❗️",
+//       });
+//     });
+// });
 
 router.post("", (req, res) => {
   const { name, description } = req.body;
@@ -51,20 +64,35 @@ router.post("", (req, res) => {
       res.status(500).json({ message: "Error on posting a ne project ❗️" });
     });
 });
-router.put("/:id", (req, res) => {
-  const changes = req.body;
+// router.put("/:id", validateProjectsId,  (req, res) => {
+//   const changes = req.body;
 
-  if (
-    !changes.name ||
-    !changes.description ||
-    typeof changes.completed !== "boolean"
-  ) {
-    res
-      .status(400)
-      .json({ message: "Missing name ,description or completed ❗️" });
-    return;
-  }
-  Projects.update(req.params.id, changes)
+//   if (
+//     !changes.name ||
+//     !changes.description ||
+//     typeof changes.completed !== "boolean"
+//   ) {
+//     res
+//       .status(400)
+//       .json({ message: "Missing name ,description or completed ❗️" });
+//     return;
+//   }
+//   Projects.update(req.params.id, changes)
+//     .then((newProject) => {
+//       res.status(200).json(newProject);
+//     })
+//     .catch(() => {
+//       res.status(500).json({
+//         message: "Error updating the project ❗️",
+//       });
+//     });
+// });
+router.put("/:id", validateProjectsId, validateProject, (req, res) => {
+  Projects.update(req.params.id, {
+    name: req.name,
+    description: req.description,
+    completed: req.completed,
+  })
     .then((newProject) => {
       res.status(200).json(newProject);
     })
@@ -75,14 +103,10 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateProjectsId, (req, res) => {
   Projects.remove(req.params.id)
     .then((deleteProject) => {
-      if (!deleteProject) {
-        res.status(404).json({ message: "Project not found" });
-      } else {
-        res.status(200).json(deleteProject);
-      }
+      res.status(200).json(deleteProject);
     })
     .catch(() => {
       res.status(500).json({
@@ -91,7 +115,7 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.get("/:id/actions", (req, res) => {
+router.get("/:id/actions", validateProjectsId, (req, res) => {
   Projects.getProjectActions(req.params.id)
     .then((action) => {
       res.status(200).json(action);
