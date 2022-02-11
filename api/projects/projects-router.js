@@ -72,13 +72,13 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  if (!id) {
-    res.status(404).json({ message: "Project not found" });
-  }
   Projects.remove(req.params.id)
     .then((deleteProject) => {
-      res.status(200).json(deleteProject);
+      if (!deleteProject) {
+        res.status(404).json({ message: "Project not found" });
+      } else {
+        res.status(200).json(deleteProject);
+      }
     })
     .catch(() => {
       res.status(500).json({
