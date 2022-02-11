@@ -159,7 +159,7 @@ Core features:
 - Very Fast - it executes code without delays
 
 ---Express--
-Express is unopinionated framework that sits on top of Node.js, making it easier to create web applications and services.
+Express is unopinionated framework that sits on top of Node.js, making it easier to create web applications and services.It sets up server to respond requests from client
 Core features:
 *Simple to use it
 *Extensible
@@ -167,6 +167,30 @@ Core features:
 
 1. Understand and explain the use of Middleware.
 
+   Middleware's are function that are used to apply custom logic to ay income request and they can be reusable.
+   There are different middleware for different purposes:
+   \*Built in Middleware-Built-in middleware is included with Express but not added to the application automatically. server.use(express.json) is an example of built in middleware that we add support for parsing JSON content out of the request body.
+
+   \*Third Party MiddleWare - re npm modules that we can install and then import into our applications using require().
+
+   \*Custom Middleware- Custom middleware are functions we write to perform specific tasks and can be reusable.
+
 1. The basic principles of the REST architectural style.
+
+The 5 principles of REST:
+Everything is a resource.
+Each resource is accessible via a unique URI.
+Resources can have multiple representations.
+Communication happens over a stateless protocol (HTTP).
+Resource management happens via HTTP methods
+
+REST uses HTTP requests to access and use data. That data can be used to GET, PUT, POST and DELETE methods , which refers to the reading, updating, creating and deleting of operations concerning resources.
+
 1. Understand and explain the use of Express Routers.
+
+Express Routers are used to organize Web API Code
+An Express Router it can have its own Routing and Middleware, but it needs to exist inside an Express application. Routers are a way of organizing Express applications that we write in separate pieces and later can be composed together.
+
 1. Describe tooling used to manually test the correctness of an API.
+
+Postman , HTTPie, Rest assured etc.
