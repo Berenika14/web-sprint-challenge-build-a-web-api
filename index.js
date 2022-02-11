@@ -15,8 +15,8 @@ Pull your server into this file and start it!
 */
 
 require("dotenv").config();
-const express = require("express");
-const server = express();
+
+const server = require("./api/server");
 
 const PORT = process.env.PORT || 9000;
 
